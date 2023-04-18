@@ -26,18 +26,18 @@ module "gke_spoke" {
 resource "google_compute_subnetwork" "gke_subnet" {
   project = data.aviatrix_account.this.gcloud_project_id
 
-  name          = "${var.name}-gke-cluster"
+  name          = "${var.name}-cluster"
   ip_cidr_range = local.nodes
   region        = var.region
   network       = module.gke_spoke.vpc.id
 
   secondary_ip_range {
-    range_name    = "${var.name}-services"
+    range_name    = "services"
     ip_cidr_range = local.services
   }
 
   secondary_ip_range {
-    range_name    = "${var.name}-pods"
+    range_name    = "pods"
     ip_cidr_range = local.pods
   }
 }
@@ -55,6 +55,7 @@ resource "google_container_cluster" "gke" {
   project  = data.aviatrix_account.this.gcloud_project_id
 
   initial_node_count = 1
+  default_max_pods_per_node = 50
 
   node_config {
     machine_type = var.gke_node_instance_size
@@ -71,8 +72,8 @@ resource "google_container_cluster" "gke" {
   subnetwork      = google_compute_subnetwork.gke_subnet.id
 
   ip_allocation_policy {
-    cluster_secondary_range_name  = "${var.name}-pods"
-    services_secondary_range_name = "${var.name}-services"
+    cluster_secondary_range_name  = "pods"
+    services_secondary_range_name = "services"
   }
 
   master_authorized_networks_config {
