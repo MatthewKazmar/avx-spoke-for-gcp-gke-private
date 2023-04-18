@@ -54,7 +54,7 @@ resource "google_container_cluster" "gke" {
   location = var.region
   project  = data.aviatrix_account.this.gcloud_project_id
 
-  initial_node_count = 1
+  initial_node_count        = 1
   default_max_pods_per_node = 50
 
   node_config {
@@ -106,8 +106,10 @@ resource "google_container_cluster" "gke" {
 }
 
 resource "google_compute_network_peering_routes_config" "peering_routes" {
+  project = data.aviatrix_account.this.gcloud_project_id
+
   peering = google_container_cluster.gke.private_cluster_config[0].peering_name
-  network = google_container_cluster.gke.network
+  network = module.gke_spoke.vpc.id
 
   import_custom_routes = true
   export_custom_routes = true
