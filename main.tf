@@ -47,10 +47,11 @@ resource "google_container_cluster" "gke" {
   location = var.region
   project  = data.aviatrix_account.this.gcloud_project_id
 
-  initial_node_count = 3
+  initial_node_count = 1
 
   node_config {
     machine_type = var.gke_node_instance_size
+    disk_size_gb = 20
     gvnic {
       enabled = true
     }
