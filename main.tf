@@ -62,7 +62,6 @@ resource "google_container_cluster" "gke" {
     gvnic {
       enabled = true
     }
-
   }
 
   node_locations = slice(data.google_compute_zones.this.names, 0, 3)
@@ -100,6 +99,9 @@ resource "google_container_cluster" "gke" {
       enabled = true
     }
   }
+  depends_on = [
+    google_project_service.container
+  ]
 }
 
 resource "google_compute_network_peering_routes_config" "peering_routes" {
