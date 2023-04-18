@@ -42,6 +42,13 @@ resource "google_compute_subnetwork" "gke_subnet" {
   }
 }
 
+resource "google_project_service" "container" {
+  project = data.aviatrix_account.this.gcloud_project_id
+
+  service            = "container.googleapis.com"
+  disable_on_destroy = false
+}
+
 resource "google_container_cluster" "gke" {
   name     = "${var.name}-gke-cluster"
   location = var.region
