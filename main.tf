@@ -32,12 +32,12 @@ resource "google_compute_subnetwork" "gke_subnet" {
   network       = module.gke_spoke.vpc.id
 
   secondary_ip_range {
-    range_name    = "${var.name}-gke-services"
+    range_name    = "${var.name}-services"
     ip_cidr_range = local.services
   }
 
   secondary_ip_range {
-    range_name    = "${var.name}-gke-pods"
+    range_name    = "${var.name}-pods"
     ip_cidr_range = local.pods
   }
 }
