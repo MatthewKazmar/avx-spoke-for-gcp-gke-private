@@ -14,7 +14,7 @@ module "gke_spoke" {
   version                          = "1.5.0"
   cloud                            = "GCP"
   region                           = var.region
-  name                             = "${var.name}-spoke-vpc"
+  name                             = "${var.name}-spoke"
   gw_name                          = "${var.name}-spoke-gateway"
   instance_size                    = var.aviatrix_spoke_instance_size
   cidr                             = local.avx
@@ -50,7 +50,7 @@ resource "google_project_service" "container" {
 }
 
 resource "google_container_cluster" "gke" {
-  name     = "${var.name}-gke-cluster"
+  name     = "${var.name}-cluster"
   location = var.region
   project  = data.aviatrix_account.this.gcloud_project_id
 
@@ -71,8 +71,8 @@ resource "google_container_cluster" "gke" {
   subnetwork      = google_compute_subnetwork.gke_subnet.id
 
   ip_allocation_policy {
-    cluster_secondary_range_name  = "${var.name}-gke-pods"
-    services_secondary_range_name = "${var.name}-gke-services"
+    cluster_secondary_range_name  = "${var.name}-pods"
+    services_secondary_range_name = "${var.name}-services"
   }
 
   master_authorized_networks_config {
