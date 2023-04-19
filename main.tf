@@ -105,6 +105,12 @@ resource "google_container_cluster" "gke" {
   depends_on = [
     google_project_service.container
   ]
+
+  lifecycle {
+    ignore_changes = [
+      node_config.tags
+    ]
+  }
 }
 
 resource "google_compute_network_peering_routes_config" "peering_routes" {
