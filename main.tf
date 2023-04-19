@@ -43,6 +43,17 @@ resource "google_compute_subnetwork" "gke_subnet" {
   }
 }
 
+resource "google_compute_subnetwork" "proxy" {
+  project  = data.aviatrix_account.this.gcloud_project_id
+  provider = google-beta
+
+  name          = "${var.name}-proxy"
+  ip_cidr_range = local.proxy
+  region        = var.region
+  network       = module.gke_spoke.vpc.id
+  purpose       = "INTERNAL_HTTPS_LOAD_BALANCER"
+}
+
 resource "google_project_service" "container" {
   project = data.aviatrix_account.this.gcloud_project_id
 
