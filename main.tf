@@ -21,6 +21,7 @@ module "gke_spoke" {
   account                          = var.avx_gcp_account_name
   transit_gw                       = var.transit_gateway_name
   included_advertised_spoke_routes = local.advertised_ranges
+  network_domain                   = var.network_domain
 }
 
 resource "google_compute_subnetwork" "gke_subnet" {
