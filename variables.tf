@@ -52,6 +52,12 @@ variable "advertise_pod_service_ranges" {
   default     = false
 }
 
+variable "use_aviatrix_firenet_egress" {
+  description = "Apply the avx_snat_noip tag to nodes for Egress"
+  type        = bool
+  default     = true
+}
+
 locals {
 
   avx               = cidrsubnet(var.cidr, 2, 0)  # 10.0.0.0/22 -> 10.0.0.0/24
@@ -60,4 +66,6 @@ locals {
   services          = cidrsubnet(var.cidr, 3, 3)  # 10.0.0.0/22 -> 10.0.1.128/25
   pods              = cidrsubnet(var.cidr, 1, 1)  # 10.0.0.0/22 -> 10.0.2.0/23
   advertised_ranges = var.advertise_pod_service_ranges ? var.cidr : "${local.avx},${local.nodes},${local.master}"
+
+  tags = var.use_aviatrix_firenet_egress ? ["avx-snat-noip"] : null
 }

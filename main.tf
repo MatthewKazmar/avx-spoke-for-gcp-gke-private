@@ -70,6 +70,7 @@ resource "google_container_cluster" "gke" {
   networking_mode = "VPC_NATIVE"
   network         = module.gke_spoke.vpc.id
   subnetwork      = google_compute_subnetwork.gke_subnet.id
+  tags            = local.tags
 
   ip_allocation_policy {
     cluster_secondary_range_name  = "pods"
