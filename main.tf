@@ -52,6 +52,7 @@ resource "google_compute_subnetwork" "proxy" {
   region        = var.region
   network       = module.gke_spoke.vpc.id
   purpose       = "INTERNAL_HTTPS_LOAD_BALANCER"
+  role          = "ACTIVE"
 }
 
 resource "google_project_service" "container" {
