@@ -66,6 +66,6 @@ locals {
   services          = cidrsubnet(var.cidr, 3, 3)  # 10.0.0.0/22 -> 10.0.1.128/25
   pods              = cidrsubnet(var.cidr, 1, 1)  # 10.0.0.0/22 -> 10.0.2.0/23
   advertised_ranges = var.advertise_pod_service_ranges ? var.cidr : "${local.avx},${local.nodes},${local.master}"
-
-  tags = var.use_aviatrix_firenet_egress ? ["avx-snat-noip"] : null
+  firewall_source   = var.advertise_pod_service_ranges ? [local.master, local.services, local.pods] : [local.master]
+  tags              = var.use_aviatrix_firenet_egress ? ["avx-snat-noip"] : null
 }

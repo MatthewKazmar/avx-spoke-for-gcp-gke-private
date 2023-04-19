@@ -122,3 +122,17 @@ resource "google_compute_network_peering_routes_config" "peering_routes" {
   import_custom_routes = true
   export_custom_routes = true
 }
+
+# Add firewall rule for GKE Private master CIDR
+resource "google_compute_firewall" "default" {
+  name    = "gke-private-to-avx"
+  network = module.cloud_build_spoke.vpc.id
+
+  allow {
+    protocol = "all"
+  }
+
+  source_ranges = local.firewall_source
+
+  target_tags = [module.gke_spoke.spoke_gateway.gw_name, module.gke_spoke.spoke_gateway.ha_gw_name]
+}
