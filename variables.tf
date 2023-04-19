@@ -63,9 +63,9 @@ locals {
   avx      = cidrsubnet(var.cidr, 2, 0)  # 10.0.0.0/22 -> 10.0.0.0/24
   nodes    = cidrsubnet(var.cidr, 4, 4)  # 10.0.0.0/22 -> 10.0.1.0/26
   master   = cidrsubnet(var.cidr, 6, 20) # 10.0.0.0/22 -> 10.0.1.64/28
-  services = cidrsubnet(var.cidr, 3, 3)  # 10.0.0.0/22 -> 10.0.1.128/25
+  services = cidrsubnet(var.cidr, 4, 6)  # 10.0.0.0/22 -> 10.0.1.128/26
   pods     = cidrsubnet(var.cidr, 1, 1)  # 10.0.0.0/22 -> 10.0.2.0/23
-  proxy    = cidrsubnet(var.cidr, 6, 21) # 10.0.0.0/22 -> 10.0.1.80/28
+  proxy    = cidrsubnet(var.cidr, 4, 7)  # 10.0.0.0/22 -> 10.0.1.192/26
 
   advertised_ranges = var.advertise_pod_service_ranges ? var.cidr : "${local.avx},${local.nodes},${local.master},${local.proxy}"
   firewall_source   = var.advertise_pod_service_ranges ? [local.master, local.services, local.pods, local.proxy] : [local.master, local.proxy]
