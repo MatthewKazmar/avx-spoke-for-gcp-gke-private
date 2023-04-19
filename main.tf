@@ -108,7 +108,7 @@ resource "google_container_cluster" "gke" {
 
   lifecycle {
     ignore_changes = [
-      node_config.tags
+      node_config[0].tags
     ]
   }
 }
