@@ -60,6 +60,7 @@ resource "google_container_cluster" "gke" {
   node_config {
     machine_type = var.gke_node_instance_size
     disk_size_gb = 20
+    tags         = local.tags
     gvnic {
       enabled = true
     }
@@ -70,7 +71,7 @@ resource "google_container_cluster" "gke" {
   networking_mode = "VPC_NATIVE"
   network         = module.gke_spoke.vpc.id
   subnetwork      = google_compute_subnetwork.gke_subnet.id
-  tags            = local.tags
+
 
   ip_allocation_policy {
     cluster_secondary_range_name  = "pods"
