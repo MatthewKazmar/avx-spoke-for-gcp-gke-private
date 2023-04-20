@@ -27,10 +27,11 @@ module "gke_spoke" {
 resource "google_compute_subnetwork" "gke_subnet" {
   project = data.aviatrix_account.this.gcloud_project_id
 
-  name          = "${var.name}-cluster"
-  ip_cidr_range = local.nodes
-  region        = var.region
-  network       = module.gke_spoke.vpc.id
+  name                     = "${var.name}-cluster"
+  ip_cidr_range            = local.nodes
+  region                   = var.region
+  network                  = module.gke_spoke.vpc.id
+  private_ip_google_access = false
 
   secondary_ip_range {
     range_name    = "services"
