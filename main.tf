@@ -31,7 +31,7 @@ resource "google_compute_subnetwork" "gke_subnet" {
   ip_cidr_range            = local.nodes
   region                   = var.region
   network                  = module.gke_spoke.vpc.id
-  #private_ip_google_access = false
+  private_ip_google_access = false
 
   secondary_ip_range {
     range_name    = "services"
